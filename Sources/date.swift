@@ -7,10 +7,11 @@
 //
 
 #if os(Linux)
-    import Glibc
+    import SwiftGlibc
 #else
     import Darwin.C
 #endif
+
 
 /// Simple Date struct, stores only UTC
 public struct Date {
@@ -68,7 +69,7 @@ public struct Date {
         let t = gmtime(&tt)
         let len = strftime(&output, 40, "%a, %d %b %Y %H:%M:%S +0000", t)
         if len > 0 {
-            return String(CString: output, encoding: NSUTF8StringEncoding)
+            return String.fromCString(output)
         }
         return nil
     }
@@ -81,7 +82,7 @@ public struct Date {
         let t = gmtime(&tt)
         let len = strftime(&output, 40, "%FT%TZ", t)
         if len > 0 {
-            return String(CString: output, encoding: NSUTF8StringEncoding)
+            return String.fromCString(output)
         }
         return nil
     }
