@@ -9,18 +9,17 @@
 import Foundation
 
 import XCTest
-@testable import twohundred
+@testable import UnchainedDate
 
 class dateTests: XCTestCase {
-    
-    override func setUp() {
-        super.setUp()
-        // Put setup code here. This method is called before the invocation of each test method in the class.
-    }
-    
-    override func tearDown() {
-        // Put teardown code here. This method is called after the invocation of each test method in the class.
-        super.tearDown()
+
+    var allTests : [(String, () -> Void)] {
+        return [
+            ("testISODateParsing", testISODateParsing),
+            ("testTimeStampToISODate", testTimeStampToISODate),
+            ("testRFC822DateParsing", testRFC822DateParsing),
+            ("testTimeStampToRFC822Date", testTimeStampToRFC822Date)
+        ]
     }
     
     func testISODateParsing() {
@@ -39,7 +38,7 @@ class dateTests: XCTestCase {
     
     func testRFC822DateParsing() {
         if let date = Date(rfc822DateString: "Tue, 24 Jan 1984 12:34:00 +0000") {
-            XCTAssert(date.timestamp == 443795640)
+            XCTAssert(date.timestamp == 443795640, "\(date.timestamp) != 443795640")
         } else {
             XCTFail("Failure to parse date")
         }

@@ -59,7 +59,7 @@ public struct Date {
                 return nil
             }
         }
-        self.timestamp = mktime(&time)
+        self.timestamp = timegm(&time)
     }
     
     /// Return a RFC-822 date string
