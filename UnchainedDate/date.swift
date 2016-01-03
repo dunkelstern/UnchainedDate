@@ -66,8 +66,9 @@ public struct Date {
     public var rfc822DateString: String? {
         var output = [Int8](count: 40, repeatedValue: 0)
         var tt = time_t(self.timestamp)
-        let t = gmtime(&tt)
-        let len = strftime(&output, 40, "%a, %d %b %Y %H:%M:%S +0000", t)
+        var t = tm()
+		gmtime_r(&tt, &t)
+        let len = strftime(&output, 40, "%a, %d %b %Y %H:%M:%S +0000", &t)
         if len > 0 {
             return String.fromCString(output)
         }
@@ -79,8 +80,9 @@ public struct Date {
     public var isoDateString: String? {
         var output = [Int8](count: 40, repeatedValue: 0)
         var tt = time_t(self.timestamp)
-        let t = gmtime(&tt)
-        let len = strftime(&output, 40, "%FT%TZ", t)
+        var t = tm()
+		gmtime_r(&tt, &t)
+        let len = strftime(&output, 40, "%FT%TZ", &t)
         if len > 0 {
             return String.fromCString(output)
         }
