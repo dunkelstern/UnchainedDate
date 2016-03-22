@@ -1,0 +1,36 @@
+(package
+  :name "unchaineddate"
+  
+  :tasks {
+    :default {
+      :tool "atllbuild"
+      :sources ["UnchainedDate/**.swift"]
+      :name "UnchainedDate"
+      :output-type "static-library"
+      :publish-product true
+      :compile-options ["-enable-testing" "-Xcc" "-D_GNU_SOURCE=1"]
+    }
+
+    :check {
+      :tool "nop"
+      :dependencies ["run-tests"]
+    }
+
+    :build-tests {
+      :tool "atllbuild"
+      :sources ["UnchainedDateTests/**.swift"]
+      :output-type "executable"
+      :name "tests"
+      :dependencies ["default"]
+      :xctestify true
+      :xctest-strict true
+      :link-with ["UnchainedDate.a"]
+    }
+
+    :run-tests {
+      :tool "xctestrun"
+      :test-executable ".atllbuild/products/tests"
+      :dependencies ["build-tests"]
+    }
+  }
+)

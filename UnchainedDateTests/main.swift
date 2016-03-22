@@ -9,4 +9,4 @@
 import XCTest
 
 print("Starting tests...")
-XCTMain([dateTests()])
+XCTMain([testCase(dateTests.allTests)])

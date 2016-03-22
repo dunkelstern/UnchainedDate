@@ -7,7 +7,7 @@
 //
 
 #if os(Linux)
-    import UnchainedGlibc
+    import Glibc
 #else
     import Darwin.C
 #endif
@@ -64,13 +64,13 @@ public struct Date {
     
     /// Return a RFC-822 date string
     public var rfc822DateString: String? {
-        var output = [Int8](count: 40, repeatedValue: 0)
+        var output = [Int8](repeating: 0, count: 40)
         var tt = time_t(self.timestamp)
         var t = tm()
 		gmtime_r(&tt, &t)
         let len = strftime(&output, 40, "%a, %d %b %Y %H:%M:%S +0000", &t)
         if len > 0 {
-            return String.fromCString(output)
+            return String(validatingUTF8: output)
         }
         return nil
     }
@@ -78,13 +78,13 @@ public struct Date {
     
     /// Return a ISO-8601 date string
     public var isoDateString: String? {
-        var output = [Int8](count: 40, repeatedValue: 0)
+        var output = [Int8](repeating: 0, count: 40)
         var tt = time_t(self.timestamp)
         var t = tm()
 		gmtime_r(&tt, &t)
         let len = strftime(&output, 40, "%FT%TZ", &t)
         if len > 0 {
-            return String.fromCString(output)
+            return String(validatingUTF8: output)
         }
         return nil
     }
